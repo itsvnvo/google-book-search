@@ -1,7 +1,9 @@
 const express = require("express");
 const path = require("path");
+const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3001;
 const app = express();
+const routes = require("./routes")
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -12,8 +14,14 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Define API routes here
+app.use(routes);
 
-// Send every other request to the React app
+
+// Connect to the Mongo DB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", { useUnifiedTopology: true });
+
+
+// Send every other request to the React ap
 // Define any API routes before this runs
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
