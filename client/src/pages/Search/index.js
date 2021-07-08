@@ -54,14 +54,47 @@ class SearchBooks extends Component {
         }
     }
 
+    
+    saveBook = (id) => {
+
+        let thumbnailImage = "";
+        if (!this.state.books[id].volumeInfo.hasOwnProperty("imageLinks")) {
+            thumbnailImage = this.state.imageLink
+        } else {
+            thumbnailImage = this.state.books[id].volumeInfo.imageLinks.thumbnail
+        }
+        let authors = "";
+        if (this.state.books[id].volumeInfo.authors === undefined) {
+            authors = ""
+        } else {
+            authors = this.state.books[id].volumeInfo.authors.join(", ")
+        }
+
+
+        API.saveBook({
+            title: this.state.books[id].volumeInfo.title,
+            subtitle: this.state.books[id].volumeInfo.subtitle,
+            authors,
+            description: this.state.books[id].volumeInfo.description,
+            image: thumbnailImage,
+            link: this.state.books[id].volumeInfo.previewLink
+        })
+            .then(res => {
+                let newBookArray = [...this.state.books]
+                newBookArray.splice([id], 1)
+                this.setState({ books: newBookArray })
+            })
+            .catch(err => console.log(err));
+    }
+
     render() {
 
         return (
             <div>
-                <Jumbotron>
-                    {"Google Books Search"}
+                <Jumbotron fluid>
+                    <h1>{"Google Books Search"}</h1>
                 </Jumbotron>
-                <Form
+                <Form className="text-center" style={{width: "100%"}}
                     query={this.state.search}
                     handleInputChange={this.handleInputChange}
                     loadBooks={this.loadBooks}
@@ -75,7 +108,6 @@ class SearchBooks extends Component {
                                 key={i}
                                 bookId={i}
                                 title={book.volumeInfo.title}
-                                subtitle={book.volumeInfo.subtitle}
                                 authors={book.volumeInfo.authors}
                                 description={book.volumeInfo.description}
                                 image={book.volumeInfo.imageLinks === undefined ? this.state.imageLink : book.volumeInfo.imageLinks.thumbnail}

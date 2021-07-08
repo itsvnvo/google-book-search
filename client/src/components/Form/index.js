@@ -4,8 +4,9 @@ import React from "react";
 export function Form(props) {
 
   return (
-
-    <form className="formContainer">
+<div style={{ height: 200, clear: "both", paddingTop: 0, textAlign: "center", backgroundColor: "gray" }}
+      className="formContainer">
+    <form>
       <input
         onChange={props.handleInputChange}
         className="formInput"
@@ -16,6 +17,7 @@ export function Form(props) {
 
       <button className="formBtn" onClick={props.loadBooks} type="success">Submit</button>
     </form>
+</div>
   )
 
 

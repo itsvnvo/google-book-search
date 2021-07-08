@@ -1,21 +1,29 @@
 import React from "react";
 
-
 function Listitems(props) {
 
-  return (
-    <div className="resultItemDiv">
-      <div className="imgDiv">
-        <img alt={props.title} src={props.image} />
-      </div>
-      <h2>{props.title}</h2>
-      <p className="subTitle">{props.subtitle}</p>
-      {props.authors === undefined ? "" : <p className="author">Written by: {props.authors.join()}</p>}
-      <p className="description">{!props.description ? "This Book does not have a summary available." : props.description}</p>
+  console.log("These are props: ", props)
 
-      <a href={props.link} target="_blank" rel="noopener noreferrer">
-        <button className="btnView">View</button></a>
+  return (
+    <div cardcard>
+      <div class="row no-gutters">
+        <div class="col-auto">
+          <img alt={props.title} src={props.image} />
+        </div>
+        <div class="col">
+        <div class="card-block px-2">
+        <h2  class="card-title">Title: {props.title}</h2>
+        {props.authors === undefined ? "" : <p class="card-text">Written by: {props.authors.join()}</p>}
+        <p>Description: {props.description}</p>
+
+        <a href={props.link} target="_blank" rel="noopener noreferrer">
+          <button>View</button></a>
+        <button onClick={() => props.saveBook(props.bookId)}>Save</button>
+        </div>
+        </div>
+      </div>
     </div>
+
   );
 }
 
